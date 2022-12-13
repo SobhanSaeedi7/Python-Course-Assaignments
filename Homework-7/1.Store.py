@@ -13,7 +13,7 @@ def read_from_database():
 
         PRODUCTS.append(dict)
 
-    f.close
+    f.close()
 
 def write_to_database():
     data = open("database.txt", "w")
