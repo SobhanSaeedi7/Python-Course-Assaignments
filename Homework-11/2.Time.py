@@ -29,11 +29,12 @@ class Time:
     def time_to_sec(self):
         result = (self.hour * 60 + self.min) * 60 + self.sec
         return result
-    
-    def sec_to_time(self):
-        hour = self.sec//3600
-        min = (self.sec - hour * 3600) // 60
-        sec = (self.sec - hour * 3600) - min * 60
+    @staticmethod
+    def sec_to_time(second):
+        secs = second
+        hour = secs//3600
+        min = (secs - hour * 3600) // 60
+        sec = (secs - hour * 3600) - min * 60
         result = Time(hour, min, sec)
         return result
     def thr_to_gmt(self):
@@ -113,7 +114,7 @@ while True:
         print(result)
     elif choose == "4":
         second = int(input("Enter seconds : "))
-        result = Time(0, 0, second)
+        result = Time.sec_to_time(second)
         result.show()
     elif choose == "5":
         sec = int(input("Enter second : "))
