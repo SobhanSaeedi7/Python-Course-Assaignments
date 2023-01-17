@@ -28,3 +28,14 @@ At start of the game you have 3 life (you can see them at the left corner of the
 Also you can see your **score** at the right corner of the geme
 
 ![Game Shot](pics\Screenshot.png)
+
+---
+## How to Play?
+
++ You can move spaceship to left with pressing keys <kbd>A</kbd> or <kbd>←</kbd>
+
++ You can move spaceship to left with pressing keys <kbd>D</kbd> or <kbd>→</kbd>
+
++ You can stop spaceship with pressing keys <kbd>S</kbd> or <kbd>↓</kbd>
+
++ And also you can fire with spaseship with pressing keys <kbd>W</kbd> or <kbd>space</kbd>
