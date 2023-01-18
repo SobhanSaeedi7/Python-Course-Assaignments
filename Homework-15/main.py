@@ -1,7 +1,7 @@
 import random
 import arcade
+import fruit
 from snake import Snake
-from apple import Apple
 
 
 class Game(arcade.Window):
@@ -10,24 +10,50 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.GO_GREEN)
         self.score = 0
         self.food_number = random.randint(1, 4)
-        self.food = self.food_type
+        self.apple = fruit.Apple(self)
+        self.pear = fruit.Pear(self)
+        self.poo = fruit.Poo(self)
         self.snake = Snake(self)
+        self.state = "OKEY"
 
     def on_draw(self):
 
         arcade.start_render()
 
-        self.food.draw()
+        self.apple.draw()
+        self.pear.draw()
+        self.poo.draw()
         self.snake.draw()
+        arcade.draw_text(f'Score: {self.snake.score}', self.width - 100, 10, arcade.color.RED_VIOLET, 15, 1, 'left',"calibri",True)
+
+        if self.state == "game_over":
+            arcade.draw_text("Game Over", self.width//2, self.height//2, arcade.color.RED, 50, 1,'left', 'calibri', True)
 
         arcade.finish_render()
 
     def on_update(self, delta_time):
         self.snake.move()
         
-        if arcade.check_for_collision(self.snake, self.food):
-            self.snake.eat(self.food)
-            self.food = Apple(self)
+        if arcade.check_for_collision(self.snake, self.apple):
+            self.snake.eat(self.apple)
+            self.apple = fruit.Apple(self)
+
+        if arcade.check_for_collision(self.snake, self.pear):
+            self.snake.eat(self.pear)
+            self.pear = fruit.Pear(self)
+
+        if arcade.check_for_collision(self.snake, self.poo):
+            self.snake.eat(self.poo)
+            self.poo = fruit.Poo(self)
+            if self.snake.score == 0:
+                self.status = "game_over"
+
+        for body in self.snake.body:
+             if self.snake.center_x+30==body['x'] or self.snake.center_x+30==body['x'] or self.snake.center_y+30 ==body['y'] or self.snake.center_y-30==body['y']:
+                self.game_status="game_over"
+
+        if self.snake.center_x ==500 or self.snake.center_x==0 or self.snake.center_y==500 or self.snake.center_y==0:
+            self.game_status="game_over"
 
 
     def on_key_press(self, symbol, modifiers):
