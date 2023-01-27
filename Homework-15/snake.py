@@ -7,8 +7,7 @@ class Snake(arcade.Sprite):
         self.height = 32
         self.center_x = game.width // 2
         self.center_y = game.height // 2
-        self.color = arcade.color.RED_BROWN
-        self.body_color = arcade.color.RED
+        self.color = arcade.color.RED_DEVIL
         self.change_x = 0
         self.change_y = 0
         self.speed = 4
@@ -20,14 +19,11 @@ class Snake(arcade.Sprite):
 
     def draw(self):
         arcade.draw_rectangle_filled(self.center_x, self.center_y, self.width, self.height, self.color)
-        for part in self.body:
-            self.coler_num = self.body_num%2
-            self.body_num += 1
-            if self.coler_num == 0:
-                self.body_color = arcade.color.BLUE
-            else :
-                self.body_color = arcade.color.RED
-            arcade.draw_rectangle_filled(part['x'], part['y'], self.width, self.height, self.body_color)
+        for i in range(len(self.body)):
+            if i%2 == 0:
+                arcade.draw_rectangle_filled(self.body[i]['x'],self.body[i]['y'],self.width,self.height,arcade.color.DARK_BLUE)
+            else:
+                arcade.draw_rectangle_filled(self.body[i]['x'],self.body[i]['y'],self.width,self.height,self.color)
     
     def move(self):
         self.body.append({'x':self.center_x, 'y':self.center_y})
@@ -40,3 +36,4 @@ class Snake(arcade.Sprite):
         self.score += food.score
         self.size += food.size
         del food
+
