@@ -83,7 +83,7 @@ class Game(arcade.Window):
                 if dyp>0:
                     self.snake.change_x=0
                     self.snake.change_y=-1
-                elif dy<0:
+                elif dyp<0:
                     self.snake.change_x=0
                     self.snake.change_y=1
                 else:
