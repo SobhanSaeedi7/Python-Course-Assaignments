@@ -1,52 +1,13 @@
 import math
+from functools import partial
 from PySide6.QtWidgets import QApplication
 from PySide6.QtUiTools import QUiLoader
 
 
 #_______________________________________________________________________________
-def num_1():
+def num(x):
     if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'1')
-
-def num_2():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'2')
-
-def num_3():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'3')
-
-def num_4():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'4')
-
-def num_5():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'5')
-
-def num_6():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'6')
-
-def num_7():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'7')
-
-def num_8():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'8')
-
-def num_9():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'9')
-
-def num_0():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'0')
-
-def point():
-    if len(window.txtbox.text()) < 20:
-        window.txtbox.setText(window.txtbox.text()+'.')
+        window.txtbox.setText(window.txtbox.text()+x)
 
 def ac():
     window.txtbox.setText('')
@@ -150,20 +111,20 @@ app = QApplication()
 
 loader = QUiLoader()
 
-window = loader.load('calculator.ui')
+window = loader.load('main_window.ui')
 window.show()
 
-window.num1.clicked.connect(num_1)
-window.num2.clicked.connect(num_2)
-window.num3.clicked.connect(num_3)
-window.num4.clicked.connect(num_4)
-window.num5.clicked.connect(num_5)
-window.num6.clicked.connect(num_6)
-window.num7.clicked.connect(num_7)
-window.num8.clicked.connect(num_8)
-window.num9.clicked.connect(num_9)
-window.num0.clicked.connect(num_0)
-window.point.clicked.connect(point)
+window.num1.clicked.connect(partial(num, "1"))
+window.num2.clicked.connect(partial(num, "2"))
+window.num3.clicked.connect(partial(num, "3"))
+window.num4.clicked.connect(partial(num, "4"))
+window.num5.clicked.connect(partial(num, "5"))
+window.num6.clicked.connect(partial(num, "6"))
+window.num7.clicked.connect(partial(num, "7"))
+window.num8.clicked.connect(partial(num, "8"))
+window.num9.clicked.connect(partial(num, "9"))
+window.num0.clicked.connect(partial(num, "0"))
+window.point.clicked.connect(partial(num, "."))
 window.ac.clicked.connect(ac)
 window.sum.clicked.connect(sum)
 window.sub.clicked.connect(sub)
