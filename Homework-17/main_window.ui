@@ -23,7 +23,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(170, 255, 127);
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(67, 145, 18, 255), stop:1 rgba(0, 0, 0, 255));
 </string>
   </property>
   <property name="documentMode">
