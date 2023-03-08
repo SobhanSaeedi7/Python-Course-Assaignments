@@ -1,0 +1,3 @@
+# SudokuGame
+
+![shot](Capture.PNG)
