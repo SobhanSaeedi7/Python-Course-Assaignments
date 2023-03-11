@@ -2,9 +2,9 @@ from threading import Thread
 from time import time
 from moviepy import editor
 
-#My Test Results:
-#Normal Converting: 95.62467241287231 secs
-#Convert with thread: 48.74849724769592 secs
+# My Test Results:
+# Normal Converting: 95.62467241287231 secs
+# Convert with thread: 48.74849724769592 secs
 
 
 vids = [["vids\BERLIN-2023-Trailer.mp4", "audios\Berlin.mp3"],
