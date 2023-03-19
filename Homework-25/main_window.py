@@ -14,7 +14,7 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+    QPalette, QPixmap, QRadialGradient, QTransform, QFontDatabase)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QLabel,
     QLineEdit, QMainWindow, QMenuBar, QProgressBar,
     QPushButton, QSizePolicy, QSpinBox, QTabWidget,
@@ -24,6 +24,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
+        font_id = QFontDatabase.addApplicationFont("Font\Seven Segment.ttf")
+        seven_segment = QFontDatabase.applicationFontFamilies(font_id)[0]
+        my_font = QFont(seven_segment, 9)
         MainWindow.setEnabled(True)
         MainWindow.resize(498, 372)
         MainWindow.setMouseTracking(False)
@@ -74,7 +77,7 @@ class Ui_MainWindow(object):
         self.gmt.setObjectName(u"gmt")
         self.gmt.setGeometry(QRect(30, 40, 191, 61))
         font1 = QFont()
-        font1.setFamilies([u"Seven Segment"])
+        font1.setFamilies([u"seven segment"])
         font1.setPointSize(24)
         font1.setBold(True)
         self.gmt.setFont(font1)
@@ -314,7 +317,7 @@ class Ui_MainWindow(object):
         self.stop_watch.setObjectName(u"stop_watch")
         self.stop_watch.setGeometry(QRect(0, 10, 341, 61))
         font9 = QFont()
-        font9.setFamilies([u"Seven Segment"])
+        font9.setFamilies([u"seven segment"])
         font9.setPointSize(32)
         font9.setBold(True)
         self.stop_watch.setFont(font9)
@@ -450,7 +453,7 @@ class Ui_MainWindow(object):
         self.timer_2.setObjectName(u"timer_2")
         self.timer_2.setGeometry(QRect(60, 80, 201, 51))
         font13 = QFont()
-        font13.setFamilies([u"Seven Segment"])
+        font13.setFamilies([u"seven segment"])
         font13.setPointSize(32)
         font13.setBold(True)
         font13.setItalic(False)

@@ -1,6 +1,7 @@
 import sys
 import time
 from functools import partial
+from plyer import notification
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
@@ -18,7 +19,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-
+        #Stop Watch
         self.thread_stopwatch = StopWatchThread()
         self.ui.start_sw.clicked.connect(self.start_stopwatch)
         self.ui.stop_sw.clicked.connect(self.stop_stopwatch)
@@ -27,10 +28,11 @@ class MainWindow(QMainWindow):
         self.ui.flag_sw.clicked.connect(self.flag)
         self.num = 1
         self.first_time = Time(0, 0, 0, 0)
-
+        #Timer
         self.hour = 0
         self.min = 1
         self.sec = 30
+        self.notif_t = 0
         self.thread_timer = TimerThread(self.hour, self.min, self.sec)
         self.total = self.thread_timer.time.time_to_sec()
         self.thread_timer.t_signal.connect(self.show_timer)
@@ -38,24 +40,23 @@ class MainWindow(QMainWindow):
         self.ui.reset_t.clicked.connect(self.reset_timer)
         self.ui.set.clicked.connect(self.set_timer)
         self.ui.start_t.clicked.connect(self.start_timer)
-
-
+        #World Clock
         self.thread_worldclock = WorldClockThread()
         self.thread_worldclock.wc_signal.connect(self.show_clock)
         self.thread_worldclock.start()
-
-
+        #ALarm
         self.db = Database()
         self.read_from_database()
+        self.notif_a = 0
         self.ui.add_a.clicked.connect(self.new_alarm)
         self.ui.pushButton.setVisible(False)
         self.thread_alarm = AlarmThread()
         self.thread_alarm.start()
-        self.thread_alarm.a_signal.connect(self.notif)
+        self.thread_alarm.a_signal.connect(self.alarm)
         
 
 
-
+    #Stop Watch Funcs
     def reset_stopwatch(self):
         self.thread_stopwatch.reset()
         self.ui.stop_watch.setText("0:0:0.0")
@@ -91,13 +92,18 @@ class MainWindow(QMainWindow):
         self.ui.gl_sw.addWidget(l3, self.num-1, 2)
         self.num += 1
 
-
+    #Timer Funcs
     def show_timer(self, time):
         self.ui.timer_2.setText(f"{time.hour} : {time.min} : {time.sec}")
         if self.total != 0:
             self.ui.progressBar.setValue(time.time_to_sec() * 100 / self.total)
         else:
             self.ui.progressBar.setValue(0)
+
+        if time.hour == 0 and time.min == 0 and time.sec == 0:
+            if self.notif_t == 0:
+                self.notif_t += 1
+                notification.notify(title = 'Clock',message = 'Timer time finished!', timeout = 5)
 
     def start_timer(self):
         self.thread_timer.start()
@@ -113,6 +119,7 @@ class MainWindow(QMainWindow):
         self.hour = 0
         self.thread_timer.reset(self.hour, self.min, self.sec)       
         self.total = self.thread_timer.time.time_to_sec() 
+        self.notif_t = 0
 
     def set_timer(self):
         self.sec = int(self.ui.sec_t.text())
@@ -121,15 +128,16 @@ class MainWindow(QMainWindow):
         self.ui.timer_2.setText(f"{self.hour} : {self.min} : {self.sec}")       
         self.thread_timer.reset(self.hour, self.min, self.sec)       
         self.total = self.thread_timer.time.time_to_sec()
+        self.notif_t = 0
 
-
+    #World Clock
     def show_clock(self, gmt_time, ir_time, us_time, de_time):
         self.ui.gmt.setText(f"{gmt_time.hour} : {gmt_time.min} : {gmt_time.sec}")
         self.ui.tehran.setText(f"{ir_time.hour} : {ir_time.min} : {ir_time.sec}")
         self.ui.washington.setText(f"{us_time.hour} : {us_time.min} : {us_time.sec}")
         self.ui.berlin.setText(f"{de_time.hour} : {de_time.min} : {de_time.sec}")
 
-
+    #Alarm Funcs
     def read_from_database(self):
         for i in reversed(range(self.ui.gl_a.count())): 
             self.ui.gl_a.itemAt(i).widget().setParent(None)
@@ -165,6 +173,7 @@ class MainWindow(QMainWindow):
             tb1.clicked.connect(partial(self.edit, le, te, alarms[i][0]))
             cb.clicked.connect(partial(self.is_on, alarms[i][0], alarms[i][5]))
             tb2.clicked.connect(partial(self.delete, alarms[i][0]))
+            self.notif_a = 0
 
     def new_alarm(self):
         new_title = self.ui.title_a.text()
@@ -231,8 +240,10 @@ class MainWindow(QMainWindow):
             msg_box.setText("There is a prublem")
             msg_box.exec_()
 
-    def notif(self, title, hour, min):
-        print("cheer")
+    def alarm(self, title, hour, min):
+        if self.notif_t == 0:
+                self.notif_t += 1
+                notification.notify(title = 'Alarm',message = f'{title}\n{hour} : {min}', timeout = 5)
 
 
 if __name__ == "__main__":
